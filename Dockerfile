@@ -12,4 +12,4 @@ RUN chmod 755 /usr/local/bin/run-sshd /etc/openvpn/openvpn.client.up
 
 EXPOSE 22/tcp
 ENTRYPOINT /usr/local/bin/run-sshd
-LABEL name="proxybox" version="1.0" description="A socks4/5 proxy server, routing traffic via OpenVPN." maintainer="dave@daveking.com" vendor=""
+LABEL name="proxybox" version="1.0" description="A socks4/5 proxy server, routing traffic via OpenVPN." maintainer="dave@daveking.com" vendor="" license="MPLv2"
