@@ -1,0 +1,19 @@
+#!/bin/sh
+set -e
+
+#  Create SSH host keys, if they don't already exist
+if [ ! -f /etc/ssh/ssh_host_rsa_key ]; then
+	/usr/libexec/openssh/sshd-keygen rsa
+fi
+if [ ! -f /etc/ssh/ssh_host_ecdsa_key ]; then
+	/usr/libexec/openssh/sshd-keygen ecdsa
+fi
+if [ ! -f /etc/ssh/ssh_host_ed25519_key ]; then
+	/usr/libexec/openssh/sshd-keygen ed25519
+fi
+
+#  Start OpenVPN
+/usr/sbin/openvpn --daemon --script-security 2 --up /etc/openvpn/openvpn.client.up --config /etc/openvpn/client/openvpn.conf --log /var/log/openvpn.log
+
+#  Start sshd in foreground
+/usr/sbin/sshd -D

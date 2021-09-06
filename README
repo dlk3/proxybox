@@ -1,0 +1,19 @@
+Create a local container that acts as a socks proxy, routing traffic out
+via a VPN connection
+
+$ podman build -t proxybox .
+$ podman run --rm -d --privileged --name=proxybox --publish 5022:22/tcp proxybox
+
+	To run container in foreground for testing, change "-d" to "-it"
+	To access the container command line:
+		$ podman exec -it proxybox /bin/sh
+	
+$ sed -i -n '/^\[localhost\]:5022/!p' ~/.ssh/known_hosts
+$ ssh -N -D 1080 -p 5022 root@localhost
+
+	Add "-f" option to ssh command to run it as a background daemon
+
+Configure socks4/socks5 proxy as localhost:1080
+
+Terminate the container and the ssh dynamic port process with:
+    $ podman stop proxybox 
